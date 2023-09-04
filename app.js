@@ -79,7 +79,7 @@ app.get('/blocklist',  async (req, res) => {
         req.session.passport.user.name = userInfo['user']['name']
         blockList = []
         // for(const userBlog of userBlogs) {
-            followers = await client.blogFollowers(userInfo['user']['name']) //userBlog['name']
+            followers = await client.blogFollowers(userInfo['user']['name'], {limit: 100}) //userBlog['name']
             console.log(followers)
             for (const follower of followers['users']){
                 blog = await client.blogInfo(follower['name'])
