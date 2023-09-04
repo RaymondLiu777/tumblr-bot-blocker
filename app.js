@@ -17,8 +17,6 @@ const app = express();
 const httpServer = createServer(app);
 const PORT = process.env.PORT || '3000';
 
-console.log(CONSUMERKEY, CONSUMERSECRET, process.env.HOSTNAME + '/auth/provider/callback')
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 passport.use('provider', new OAuthStrategy({
@@ -68,6 +66,7 @@ app.get('/blocklist',  async (req, res) => {
         res.redirect('/')
     }
     else{
+        console.log(req.session)
         const client = tumblr.createClient({
             consumer_key: CONSUMERKEY,
             consumer_secret: CONSUMERSECRET,
@@ -76,10 +75,12 @@ app.get('/blocklist',  async (req, res) => {
         });
         const userInfo = await client.userInfo();
         // const userBlogs = userInfo['user']['blogs'];
+        console.log(userInfo)
         req.session.passport.user.name = userInfo['user']['name']
         blockList = []
         // for(const userBlog of userBlogs) {
             followers = await client.blogFollowers(userInfo['user']['name']) //userBlog['name']
+            console.log(followers)
             for (const follower of followers['users']){
                 blog = await client.blogInfo(follower['name'])
                 // Conditions
@@ -96,6 +97,7 @@ app.get('/blocklist',  async (req, res) => {
                     
             }
         // }
+        console.log(blockList);
         res.render('blocklist', {
             bots: blockList,
             botNames: blockList.map((bot) => {
