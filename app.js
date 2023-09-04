@@ -17,6 +17,8 @@ const app = express();
 const httpServer = createServer(app);
 const PORT = process.env.PORT || '3000';
 
+console.log(CONSUMERKEY, CONSUMERSECRET, process.env.HOSTNAME + '/auth/provider/callback')
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 passport.use('provider', new OAuthStrategy({
