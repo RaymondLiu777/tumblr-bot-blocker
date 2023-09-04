@@ -62,7 +62,7 @@ httpServer.listen(PORT, () => {
 })
 
 app.get('/blocklist',  async (req, res) => {
-    if (!req.session || !req.session.passport.user) {
+    if (!req.session || !req.session.passport || !req.session.passport.user) {
         res.redirect('/')
     }
     else{
@@ -77,7 +77,9 @@ app.get('/blocklist',  async (req, res) => {
         req.session.passport.user.name = userInfo['user']['name']
         blockList = []
         // for(const userBlog of userBlogs) {
-            followers = await client.blogFollowers(userInfo['user']['name']) //userBlog['name']
+        followers = await client.blogFollowers(userInfo['user']['name'])
+        for(let i = 0; i < Math.min(100, followers['total_users']); i += 20) {
+            followers = await client.blogFollowers(userInfo['user']['name'], {offset: i}) //userBlog['name']
             for (const follower of followers['users']){
                 blog = await client.blogInfo(follower['name'])
                 // Conditions
@@ -91,9 +93,8 @@ app.get('/blocklist',  async (req, res) => {
                 if(block) {
                     blockList.push({name: follower['name'], reasons: reasons.join(', ')})
                 }
-                    
             }
-        // }
+        }
         res.render('blocklist', {
             bots: blockList,
             botNames: blockList.map((bot) => {
