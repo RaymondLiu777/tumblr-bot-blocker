@@ -78,8 +78,8 @@ app.get('/blocklist',  async (req, res) => {
         console.log(userInfo)
         req.session.passport.user.name = userInfo['user']['name']
         blockList = []
-        // for(const userBlog of userBlogs) {
-            followers = await client.blogFollowers(userInfo['user']['name'], {limit: 100}) //userBlog['name']
+        for(let i = 0; i < 100; i += 20) {
+            followers = await client.blogFollowers(userInfo['user']['name'], {offset: i}) //userBlog['name']
             console.log(followers)
             for (const follower of followers['users']){
                 blog = await client.blogInfo(follower['name'])
@@ -96,7 +96,7 @@ app.get('/blocklist',  async (req, res) => {
                 }
                     
             }
-        // }
+        }
         console.log(blockList);
         res.render('blocklist', {
             bots: blockList,
