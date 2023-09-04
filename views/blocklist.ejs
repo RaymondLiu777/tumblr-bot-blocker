@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Scan Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid text-center m-3">
+        <h1>Bot Scan Results</h1>
+    </div>
+    <% if(bots.length != 0) { %>
+    <form action="/blockusers" method="get" id="block-form">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Blog Name</th>
+                    <th scope="col">Block Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% bots.forEach(function(bot){ %>
+                    <tr>
+                        <td><%= bot.name %></td>
+                        <td><%= bot.reasons %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <div class="row m-3 align-items-center">
+            <div class="col-auto">
+                <label for="blocklist" class="form-label">Block list:</label>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="blockList" name="blockList" value="<%= botNames %>"">
+            </div>            
+        </div>
+        <div class="container-fluid text-center m-3">
+            <div class="form-text">Remove any names you don't want blocked</div>
+        </div>
+        <div class="container-fluid text-center m-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+    <% } else { %>
+        <div class="alert alert-success m-3" role="alert">
+            No bots found :)
+        </div>
+    <% } %>
+    <script>
+        document.getElementById("block-form")
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

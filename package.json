@@ -1,0 +1,22 @@
+{
+  "name": "tumblerbotblocker",
+  "version": "1.0.0",
+  "description": "Website for blocking bots on tumblr",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "node-fetch": "^3.3.2",
+    "passport": "^0.6.0",
+    "passport-oauth": "^1.0.0",
+    "tumblr.js": "^4.0.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
