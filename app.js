@@ -73,11 +73,11 @@ app.get('/blocklist',  async (req, res) => {
             token_secret: req.session.passport.user.tokenSecret,
         });
         const userInfo = await client.userInfo();
-        const userBlogs = userInfo['user']['blogs'];
+        // const userBlogs = userInfo['user']['blogs'];
         req.session.passport.user.name = userInfo['user']['name']
         blockList = []
-        for(const userBlog of userBlogs) {
-            followers = await client.blogFollowers(userBlog['name'])
+        // for(const userBlog of userBlogs) {
+            followers = await client.blogFollowers(userInfo['user']['name']) //userBlog['name']
             for (const follower of followers['users']){
                 blog = await client.blogInfo(follower['name'])
                 // Conditions
@@ -93,7 +93,7 @@ app.get('/blocklist',  async (req, res) => {
                 }
                     
             }
-        }
+        // }
         res.render('blocklist', {
             bots: blockList,
             botNames: blockList.map((bot) => {
